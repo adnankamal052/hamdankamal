@@ -1,0 +1,20 @@
+{
+  "board": "Edexcel",
+  "year": "2023",
+  "tier": "Higher",
+  "paper": "Paper 1",
+  "title": "Edexcel GCSE (9-1) Mathematics June 2023 Paper 1 Non-Calculator",
+  "pdfUrl": "https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Past-Papers/Edexcel/Paper-1H/MA/June%202023%20MA.pdf",
+  "questions": [
+    { "q": "<b>Q1. [3 marks]</b> Work out 8.46 ÷ 0.15", "opts": ["56.4", "5.64", "564", "0.564"], "ans": 0 },
+    { "q": "<b>Q2. [2 marks]</b> Work out 3<span class='frac'><span class='top'>1</span><span class='bottom'>4</span></span> - 1<span class='frac'><span class='top'>2</span><span class='bottom'>3</span></span>", "opts": ["1<span class='frac'><span class='top'>7</span><span class='bottom'>12</span></span>", "2<span class='frac'><span class='top'>1</span><span class='bottom'>12</span></span>", "1<span class='frac'><span class='top'>5</span><span class='bottom'>12</span></span>", "2<span class='frac'><span class='top'>5</span><span class='bottom'>12</span></span>"], "ans": 0 },
+    { "q": "<b>Q3. [4 marks]</b> A cube has a total surface area of 150 cm<sup>2</sup>. Work out the volume of the cube.", "opts": ["125 cm<sup>3</sup>", "25 cm<sup>3</sup>", "150 cm<sup>3</sup>", "625 cm<sup>3</sup>"], "ans": 0 },
+    { "q": "<b>Q4. [2 marks]</b> The ratio of red counters to blue counters in a bag is 3 : 7. There are 42 blue counters. How many red counters are there?", "opts": ["18", "14", "21", "28"], "ans": 0 },
+    { "q": "<b>Q5. [3 marks]</b> Work out the value of 5<sup>-2</sup> × 10<sup>3</sup>", "opts": ["40", "4", "250", "100"], "ans": 0 },
+    { "q": "<b>Q6. [3 marks]</b> A line L<sub>1</sub> passes through (0, 4) and (2, 10). Find the gradient of line L<sub>1</sub>.", "opts": ["3", "2", "6", "4"], "ans": 0 },
+    { "q": "<b>Q7. [3 marks]</b> Expand and simplify fully: (<i>x</i> + 5)(<i>x</i> - 3)", "opts": ["<i>x</i><sup>2</sup> + 2<i>x</i> - 15", "<i>x</i><sup>2</sup> - 2<i>x</i> - 15", "<i>x</i><sup>2</sup> + 8<i>x</i> - 15", "<i>x</i><sup>2</sup> + 2<i>x</i> + 15"], "ans": 0 },
+    { "q": "<b>Q8. [3 marks]</b> Pressure = Force ÷ Area. A force of 90 N is applied to a base area of 30 cm<sup>2</sup>. Calculate the pressure.", "opts": ["3 N/cm<sup>2</sup>", "2700 N/cm<sup>2</sup>", "0.33 N/cm<sup>2</sup>", "30 N/cm<sup>2</sup>"], "ans": 0 },
+    { "q": "<b>Q9. [4 marks]</b> Solve the simultaneous equations:<br><b>2<i>y</i> = 3<i>x</i> - 22</b><br><b>2 - 2<i>y</i> = <i>x</i></b>", "opts": ["<i>x</i> = 5, <i>y</i> = -3.5", "<i>x</i> = 4, <i>y</i> = -5", "<i>x</i> = 6, <i>y</i> = -2", "<i>x</i> = 2, <i>y</i> = -8"], "ans": 0 },
+    { "q": "<b>Q10. [2 marks]</b> Write 0.000045 in standard form.", "opts": ["4.5 × 10<sup>-5</sup>", "4.5 × 10<sup>-4</sup>", "45 × 10<sup>-6</sup>", "4.5 × 10<sup>5</sup>"], "ans": 0 }
+  ]
+}
