@@ -19,27 +19,65 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 
+  <!-- LOGIN / PIN SCREEN -->
+  <div id="login-screen" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl text-center">
+      <div class="w-16 h-16 bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 rounded-2xl flex items-center justify-center text-3xl font-extrabold mx-auto shadow-inner">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div>
+        <h2 class="text-2xl font-extrabold text-white">Year 9 Maths Portal</h2>
+        <p class="text-slate-400 text-xs mt-1">Please enter your passcode to log in</p>
+      </div>
+
+      <!-- Account Selection Tabs -->
+      <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+        <button id="tab-student" onclick="setLoginRole('student')" class="py-2.5 rounded-lg text-xs font-bold transition bg-indigo-600 text-white">
+          <i class="fa-solid fa-user-graduate mr-1"></i> Student (Son)
+        </button>
+        <button id="tab-parent" onclick="setLoginRole('parent')" class="py-2.5 rounded-lg text-xs font-bold text-slate-400 transition hover:text-white">
+          <i class="fa-solid fa-user-shield mr-1"></i> Parent
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div class="text-left">
+          <label id="pin-label" class="block text-xs font-semibold text-slate-300 mb-1.5">Son's Passcode (Default: 1234)</label>
+          <input type="password" id="login-pin" maxlength="6" placeholder="Enter PIN..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 text-center text-xl font-mono tracking-widest text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+        </div>
+
+        <p id="login-error" class="text-xs text-rose-400 font-semibold hidden"><i class="fa-solid fa-circle-exclamation mr-1"></i> Incorrect Passcode. Please try again.</p>
+
+        <button onclick="attemptLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm">
+          Log In
+        </button>
+      </div>
+
+      <p class="text-[11px] text-slate-500">Default Parent PIN: <span class="font-mono text-slate-400">9999</span> | Default Son PIN: <span class="font-mono text-slate-400">1234</span></p>
+    </div>
+  </div>
+
   <!-- Top Navigation Bar -->
-  <nav class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur">
+  <nav class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-40 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
         <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
-          <i class="fa-solid fa-graduation-cap"></i>
+          <i class="fa-solid fa-calculator"></i>
         </div>
         <div>
           <h1 class="font-bold text-lg text-white leading-tight">Year 9 Maths Practice</h1>
-          <p class="text-xs text-indigo-400 font-medium">UK Key Stage 3 • GCSE Target 1–9</p>
+          <p class="text-xs text-indigo-400 font-medium">UK Key Stage 3 • GCSE Prep</p>
         </div>
       </div>
 
-      <!-- Account Switcher -->
+      <!-- User Status & Logout -->
       <div class="flex items-center gap-3">
         <div id="user-pill" class="flex items-center gap-2 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-xs font-medium">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="role-display" class="text-slate-300">Active Account: Parent</span>
+          <span id="role-display" class="text-slate-300">Logged in as: Student</span>
         </div>
-        <button onclick="toggleRole()" class="text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-lg transition font-semibold">
-          <i class="fa-solid fa-user-gear mr-1"></i> Switch Account
+        <button onclick="logout()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg transition font-semibold">
+          <i class="fa-solid fa-right-from-bracket mr-1"></i> Lock Portal
         </button>
       </div>
     </div>
@@ -49,34 +87,39 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
 
     <!-- PARENT VIEW -->
-    <div id="parent-view" class="space-y-6">
+    <div id="parent-view" class="space-y-6 hidden">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
         <div>
           <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Parent Control Panel</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Assign & Track Maths Practice Papers</h2>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Assign & Review Maths Practice</h2>
           <p class="text-slate-300 text-sm mt-1">Assign custom topic tests for your son, set pass percentage targets, and track performance.</p>
         </div>
-        <button onclick="openAssignModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
-          <i class="fa-solid fa-plus"></i> Assign New Test
-        </button>
+        <div class="flex gap-2">
+          <button onclick="openPinModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold px-4 py-3 rounded-xl transition text-xs flex items-center gap-2">
+            <i class="fa-solid fa-key"></i> Change PINs
+          </button>
+          <button onclick="openAssignModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-plus"></i> Assign New Test
+          </button>
+        </div>
       </div>
 
       <!-- Metrics Summary -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
           <p class="text-xs text-slate-400 font-medium">Total Tests Assigned</p>
-          <p id="stat-total-tests" class="text-2xl font-bold text-white mt-1">2</p>
+          <p id="stat-total-tests" class="text-2xl font-bold text-white mt-1">0</p>
         </div>
         <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
           <p class="text-xs text-slate-400 font-medium">Son's Overall Pass Rate</p>
-          <p id="stat-pass-rate" class="text-2xl font-bold text-emerald-400 mt-1">80%</p>
+          <p id="stat-pass-rate" class="text-2xl font-bold text-emerald-400 mt-1">0%</p>
         </div>
         <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
           <p class="text-xs text-slate-400 font-medium">Strongest Topic</p>
-          <p id="stat-top-topic" class="text-2xl font-bold text-indigo-400 mt-1">Indices & Powers</p>
+          <p id="stat-top-topic" class="text-2xl font-bold text-indigo-400 mt-1">None yet</p>
         </div>
         <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
-          <p class="text-xs text-slate-400 font-medium">Current GCSE Working Grade</p>
+          <p class="text-xs text-slate-400 font-medium">Working GCSE Grade</p>
           <p id="stat-ks3-grade" class="text-2xl font-bold text-amber-400 mt-1">Grade 6+</p>
         </div>
       </div>
@@ -105,7 +148,7 @@
         <div>
           <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Student Dashboard</span>
           <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Complete your parent-assigned practice papers to prepare for assessments.</p>
+          <p class="text-slate-300 text-sm mt-1">Complete your assigned tasks to practice for your assessments.</p>
         </div>
         <div class="text-right">
           <span class="text-2xl font-extrabold text-amber-400">🔥 1 Day Streak</span>
@@ -114,7 +157,7 @@
 
       <div class="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl">
         <h3 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-indigo-400"></i> Pending Assignments
+          <i class="fa-solid fa-list-check text-indigo-400"></i> Your Pending Assignments
         </h3>
         <div id="student-task-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
@@ -202,14 +245,42 @@
     </div>
   </div>
 
+  <!-- CHANGE PIN MODAL -->
+  <div id="pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-2xl p-6 space-y-4 shadow-2xl">
+      <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-key text-indigo-400 mr-2"></i> Update Passcodes</h3>
+      
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">New Parent PIN</label>
+        <input type="text" id="new-parent-pin" maxlength="6" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">New Son PIN</label>
+        <input type="text" id="new-student-pin" maxlength="6" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono">
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closePinModal()" class="px-3 py-2 text-slate-400 hover:text-white text-xs font-semibold">Cancel</button>
+        <button onclick="savePins()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl">Save Passcodes</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    let currentRole = 'parent';
-    let assignedTests = [
+    // Authentication Passcodes
+    let parentPin = localStorage.getItem('parentPin') || '9999';
+    let studentPin = localStorage.getItem('studentPin') || '1234';
+    let currentRole = null;
+    let selectedLoginRole = 'student';
+
+    // Data Storage
+    let assignedTests = JSON.parse(localStorage.getItem('assignedTests')) || [
       { id: 't1', topic: 'Indices & Laws of Indices', questionsCount: 5, target: 70, status: 'Pending', createdAt: 'Today' },
       { id: 't2', topic: 'Simultaneous Equations', questionsCount: 5, target: 80, status: 'Passed', score: 80, createdAt: 'Yesterday' }
     ];
 
-    let topicStats = {
+    let topicStats = JSON.parse(localStorage.getItem('topicStats')) || {
       'Indices & Laws of Indices': { attempted: 5, passed: 4 },
       'Simultaneous Equations': { attempted: 5, passed: 4 },
       'Trigonometry & Pythagoras': { attempted: 0, passed: 0 },
@@ -221,7 +292,6 @@
     let currentQIndex = 0;
     let userAnswers = {};
 
-    // UK Year 9 Exam Bank with Native HTML Math Formatting
     const UK_QUESTION_BANK = {
       'Indices & Laws of Indices': [
         { q: "Simplify 2<sup>3</sup> × 2<sup>4</sup>", opts: ["2<sup>7</sup>", "2<sup>12</sup>", "4<sup>7</sup>", "2<sup>1</sup>"], ans: 0 },
@@ -236,14 +306,50 @@
       ]
     };
 
-    function init() {
-      renderParentDashboard();
+    function setLoginRole(role) {
+      selectedLoginRole = role;
+      document.getElementById('login-error').classList.add('hidden');
+      document.getElementById('login-pin').value = '';
+      
+      const tabStudent = document.getElementById('tab-student');
+      const tabParent = document.getElementById('tab-parent');
+      const pinLabel = document.getElementById('pin-label');
+
+      if (role === 'student') {
+        tabStudent.className = "py-2.5 rounded-lg text-xs font-bold transition bg-indigo-600 text-white";
+        tabParent.className = "py-2.5 rounded-lg text-xs font-bold text-slate-400 transition hover:text-white";
+        pinLabel.innerText = "Son's Passcode (Default: 1234)";
+      } else {
+        tabParent.className = "py-2.5 rounded-lg text-xs font-bold transition bg-indigo-600 text-white";
+        tabStudent.className = "py-2.5 rounded-lg text-xs font-bold text-slate-400 transition hover:text-white";
+        pinLabel.innerText = "Parent Passcode (Default: 9999)";
+      }
     }
 
-    function toggleRole() {
-      currentRole = currentRole === 'parent' ? 'student' : 'parent';
-      document.getElementById('role-display').innerText = `Active Account: ${currentRole === 'parent' ? 'Parent' : 'Student (Son)'}`;
-      switchView('dashboard');
+    function attemptLogin() {
+      const enteredPin = document.getElementById('login-pin').value.trim();
+      const expectedPin = selectedLoginRole === 'parent' ? parentPin : studentPin;
+
+      if (enteredPin === expectedPin) {
+        currentRole = selectedLoginRole;
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('role-display').innerText = `Logged in as: ${currentRole === 'parent' ? 'Parent' : 'Student (Son)'}`;
+        switchView('dashboard');
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+      currentRole = null;
+      document.getElementById('login-pin').value = '';
+      document.getElementById('login-error').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+    }
+
+    function saveData() {
+      localStorage.setItem('assignedTests', JSON.stringify(assignedTests));
+      localStorage.setItem('topicStats', JSON.stringify(topicStats));
     }
 
     function switchView(viewName) {
@@ -264,13 +370,23 @@
     }
 
     function renderParentDashboard() {
+      document.getElementById('stat-total-tests').innerText = assignedTests.length;
+      
+      let totalAttempted = 0, totalPassed = 0;
+      Object.values(topicStats).forEach(s => {
+        totalAttempted += s.attempted;
+        totalPassed += s.passed;
+      });
+      const overallPct = totalAttempted > 0 ? Math.round((totalPassed / totalAttempted) * 100) : 0;
+      document.getElementById('stat-pass-rate').innerText = `${overallPct}%`;
+
       const assignedList = document.getElementById('assigned-list');
       assignedList.innerHTML = assignedTests.map(t => `
         <div class="flex items-center justify-between p-3.5 bg-slate-900/60 rounded-xl border border-slate-700/60">
           <div>
             <span class="text-xs font-bold px-2 py-0.5 rounded ${t.status === 'Passed' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${t.status}</span>
             <h4 class="font-bold text-slate-100 text-sm mt-1">${t.topic}</h4>
-            <p class="text-xs text-slate-400">${t.questionsCount} Questions • Pass Target: ${t.target}%</p>
+            <p class="text-xs text-slate-400">${t.questionsCount} Questions • Target: ${t.target}%</p>
           </div>
           ${t.score !== undefined ? `<span class="text-lg font-bold text-emerald-400">${t.score}%</span>` : `<span class="text-xs text-slate-500">Pending Son</span>`}
         </div>
@@ -308,6 +424,22 @@
     function openAssignModal() { document.getElementById('assign-modal').classList.remove('hidden'); }
     function closeAssignModal() { document.getElementById('assign-modal').classList.add('hidden'); }
 
+    function openPinModal() {
+      document.getElementById('new-parent-pin').value = parentPin;
+      document.getElementById('new-student-pin').value = studentPin;
+      document.getElementById('pin-modal').classList.remove('hidden');
+    }
+    function closePinModal() { document.getElementById('pin-modal').classList.add('hidden'); }
+
+    function savePins() {
+      parentPin = document.getElementById('new-parent-pin').value.trim() || '9999';
+      studentPin = document.getElementById('new-student-pin').value.trim() || '1234';
+      localStorage.setItem('parentPin', parentPin);
+      localStorage.setItem('studentPin', studentPin);
+      closePinModal();
+      alert('Passcodes updated successfully!');
+    }
+
     function confirmAssignTest() {
       const topic = document.getElementById('modal-topic').value;
       const count = parseInt(document.getElementById('modal-count').value);
@@ -322,6 +454,7 @@
         createdAt: 'Just now'
       });
 
+      saveData();
       closeAssignModal();
       renderParentDashboard();
     }
@@ -347,7 +480,6 @@
     function renderQuestion() {
       const q = activeTest.questions[currentQIndex];
       document.getElementById('q-curr').innerText = currentQIndex + 1;
-      
       document.getElementById('question-box').innerHTML = q.q;
 
       const optsBox = document.getElementById('options-box');
@@ -400,6 +532,8 @@
       topicStats[activeTest.topic].attempted += activeTest.questions.length;
       topicStats[activeTest.topic].passed += correct;
 
+      saveData();
+
       document.getElementById('test-runner-view').classList.add('hidden');
       document.getElementById('test-summary-view').classList.remove('hidden');
 
@@ -410,8 +544,6 @@
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       }
     }
-
-    init();
   </script>
 </body>
 </html>
