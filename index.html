@@ -65,13 +65,13 @@
         </div>
         <div>
           <h1 class="font-bold text-lg text-white leading-tight">Year 9 & GCSE Maths Portal</h1>
-          <p class="text-xs text-indigo-400 font-medium">UK Curriculum • Dynamic JSON Loader</p>
+          <p class="text-xs text-indigo-400 font-medium">UK Curriculum • Gemini AI Powered</p>
         </div>
       </div>
 
       <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1 rounded-xl">
         <button id="nav-mode-gen" onclick="switchPortalMode('generator')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">
-          <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Dynamic Generator
+          <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Dynamic Practice
         </button>
         <button id="nav-mode-past" onclick="switchPortalMode('pastpapers')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
           <i class="fa-solid fa-file-pdf mr-1"></i> Real GCSE Past Papers
@@ -98,15 +98,15 @@
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
         <div>
           <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Parent Control Panel</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Assign Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Assign topic tests or real GCSE exam papers for your son.</p>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Generator</h2>
+          <p class="text-slate-300 text-sm mt-1">Assign custom math papers by topic & difficulty level using Gemini AI.</p>
         </div>
-        <div class="flex gap-2">
-          <button onclick="openPinModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold px-4 py-3 rounded-xl transition text-xs flex items-center gap-2">
-            <i class="fa-solid fa-key"></i> Change PINs
+        <div class="flex flex-wrap gap-2">
+          <button onclick="openApiKeyModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 font-bold px-3.5 py-2.5 rounded-xl transition text-xs flex items-center gap-2">
+            <i class="fa-solid fa-key"></i> Set Gemini API Key
           </button>
-          <button onclick="openAssignModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2 text-sm">
-            <i class="fa-solid fa-plus"></i> Assign New Test
+          <button onclick="openAiModal()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 text-xs">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Questions
           </button>
         </div>
       </div>
@@ -140,7 +140,7 @@
 
         <div class="bg-slate-800/50 border border-slate-700 p-5 rounded-2xl">
           <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-line text-emerald-400"></i> Topic Pass Rates & Performance
+            <i class="fa-solid fa-chart-line text-emerald-400"></i> Topic Performance
           </h3>
           <div id="topic-breakdown-list" class="space-y-4"></div>
         </div>
@@ -152,24 +152,24 @@
       <div class="bg-gradient-to-r from-emerald-900/60 via-teal-900/40 to-slate-900 border border-emerald-500/30 p-6 rounded-2xl flex justify-between items-center">
         <div>
           <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Student Dashboard</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Complete assigned tasks or choose a Real GCSE Past Paper.</p>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Inbox</h2>
+          <p class="text-slate-300 text-sm mt-1">Complete your assigned tasks to build mastery.</p>
         </div>
       </div>
 
       <div class="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl">
         <h3 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-indigo-400"></i> Assigned Homework Tasks
+          <i class="fa-solid fa-list-check text-indigo-400"></i> Your Pending Practice Tasks
         </h3>
         <div id="student-task-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
     </div>
 
-    <!-- REAL GCSE PAST PAPERS VIEW (JSON DRIVEN) -->
+    <!-- REAL GCSE PAST PAPERS VIEW -->
     <div id="gcse-papers-view" class="space-y-6 hidden">
       <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl space-y-4">
         <div>
-          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Dynamic GCSE JSON Loader</span>
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">GCSE Exam Bank</span>
           <h2 class="text-2xl font-extrabold text-white mt-2">Select Exam Board & Year</h2>
           <p class="text-slate-300 text-sm mt-1">Loads JSON past paper files on demand from your GitHub repository.</p>
         </div>
@@ -249,9 +249,79 @@
 
   </main>
 
+  <!-- GEMINI AI GENERATOR MODAL -->
+  <div id="ai-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 space-y-5 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-wand-magic-sparkles text-purple-400 mr-2"></i> Generate AI Practice Questions</h3>
+        <button onclick="closeAiModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Select Year 9 Topic</label>
+          <select id="ai-topic" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium outline-none">
+            <option value="Indices & Laws of Indices">Indices & Laws of Indices</option>
+            <option value="Simultaneous Equations">Simultaneous Equations</option>
+            <option value="Trigonometry & Pythagoras">Trigonometry & Pythagoras</option>
+            <option value="Fractions & Decimals">Fractions & Decimals</option>
+            <option value="Ratio & Direct Proportion">Ratio & Direct Proportion</option>
+            <option value="Algebra & Quadratics">Algebra & Quadratic Expansion</option>
+            <option value="Standard Form">Standard Form & Estimation</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Difficulty Level</label>
+          <select id="ai-difficulty" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium outline-none">
+            <option value="Low (Year 9 Core / Grade 4-5 Prep)">🟢 Low (Year 9 Core / Grade 4-5 Prep)</option>
+            <option value="Medium (Year 9 Standard / Grade 6 Prep)" selected>🟡 Medium (Year 9 Standard / Grade 6 Prep)</option>
+            <option value="High (Year 9 Advanced / Grade 7-9 Prep)">🔴 High (Year 9 Advanced / Grade 7-9 Prep)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Number of Questions</label>
+          <select id="ai-count" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium outline-none">
+            <option value="5" selected>5 Questions</option>
+            <option value="10">10 Questions</option>
+          </select>
+        </div>
+
+        <div id="ai-loading" class="hidden p-3 bg-indigo-900/40 border border-indigo-500/30 rounded-xl text-xs text-indigo-300 flex items-center gap-2">
+          <i class="fa-solid fa-spinner animate-spin"></i> Gemini AI is drafting your questions...
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-3">
+        <button onclick="closeAiModal()" class="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold">Cancel</button>
+        <button onclick="generateAiQuestions()" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-sm rounded-xl shadow-lg">Generate & Assign</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API KEY MODAL -->
+  <div id="apikey-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-md rounded-2xl p-6 space-y-4 shadow-2xl">
+      <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-key text-amber-400 mr-2"></i> Configure Gemini API Key</h3>
+      <p class="text-xs text-slate-400">Get a free API Key from <a href="https://aistudio.google.com" target="_blank" class="text-indigo-400 underline">aistudio.google.com</a>. This key is saved only in your personal browser and never sent to GitHub.</p>
+      
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Gemini API Key</label>
+        <input type="password" id="gemini-api-key" placeholder="AIzaSy..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono">
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeApiKeyModal()" class="px-3 py-2 text-slate-400 hover:text-white text-xs font-semibold">Cancel</button>
+        <button onclick="saveApiKey()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl">Save Key</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let parentPin = localStorage.getItem('parentPin') || '9999';
     let studentPin = localStorage.getItem('studentPin') || '1234';
+    let geminiApiKey = localStorage.getItem('geminiApiKey') || '';
     let currentRole = null;
     let selectedLoginRole = 'student';
     let portalMode = 'generator';
@@ -267,7 +337,6 @@
     function setLoginRole(role) {
       selectedLoginRole = role;
       document.getElementById('login-pin').value = '';
-      document.getElementById('pin-label').innerText = role === 'student' ? "Son's Passcode (Default: 1234)" : "Parent Passcode (Default: 9999)";
     }
 
     function attemptLogin() {
@@ -292,7 +361,7 @@
     function switchPortalMode(mode) {
       portalMode = mode;
       document.getElementById('nav-mode-gen').className = mode === 'generator' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-      document.getElementById('nav-mode-past').className = mode === 'pastpapers' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      document.getElementById('nav-mode-past').className = mode === 'pastpapers' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition";
       switchView('dashboard');
     }
 
@@ -310,14 +379,132 @@
         } else {
           if (currentRole === 'parent') {
             document.getElementById('parent-view').classList.remove('hidden');
+            renderParentDashboard();
           } else {
             document.getElementById('student-view').classList.remove('hidden');
+            renderStudentDashboard();
           }
         }
       }
     }
 
-    // DYNAMIC JSON FETCHING FUNCTION
+    function renderParentDashboard() {
+      document.getElementById('stat-total-tests').innerText = assignedTests.length;
+      const assignedList = document.getElementById('assigned-list');
+      assignedList.innerHTML = assignedTests.map(t => `
+        <div class="flex items-center justify-between p-3.5 bg-slate-900/60 rounded-xl border border-slate-700/60">
+          <div>
+            <span class="text-xs font-bold px-2 py-0.5 rounded ${t.status === 'Passed' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${t.status}</span>
+            <h4 class="font-bold text-slate-100 text-sm mt-1">${t.topic}</h4>
+            <p class="text-xs text-slate-400">${t.questionsCount} Qs • ${t.difficulty || 'Standard'}</p>
+          </div>
+          ${t.score !== undefined ? `<span class="text-lg font-bold text-emerald-400">${t.score}%</span>` : `<span class="text-xs text-slate-500">Pending</span>`}
+        </div>
+      `).join('') || `<p class="text-xs text-slate-400">No tests assigned yet.</p>`;
+    }
+
+    function renderStudentDashboard() {
+      const taskList = document.getElementById('student-task-list');
+      taskList.innerHTML = assignedTests.filter(t => t.status === 'Pending').map(t => `
+        <div class="bg-slate-900 border border-slate-700/80 p-5 rounded-xl space-y-3">
+          <span class="text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md">${t.difficulty || 'Year 9 Practice'}</span>
+          <h4 class="text-lg font-bold text-white">${t.topic}</h4>
+          <p class="text-xs text-slate-400">${t.questionsCount} Questions • Target: 70%</p>
+          <button onclick="startAssignedTest('${t.id}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl shadow-lg transition">Start Practice Task</button>
+        </div>
+      `).join('') || `<p class="text-slate-400 text-sm">No pending tasks right now!</p>`;
+    }
+
+    function openAiModal() { document.getElementById('ai-modal').classList.remove('hidden'); }
+    function closeAiModal() { document.getElementById('ai-modal').classList.add('hidden'); }
+    function openApiKeyModal() { 
+      document.getElementById('gemini-api-key').value = geminiApiKey;
+      document.getElementById('apikey-modal').classList.remove('hidden'); 
+    }
+    function closeApiKeyModal() { document.getElementById('apikey-modal').classList.add('hidden'); }
+
+    function saveApiKey() {
+      geminiApiKey = document.getElementById('gemini-api-key').value.trim();
+      localStorage.setItem('geminiApiKey', geminiApiKey);
+      closeApiKeyModal();
+      alert('API Key saved successfully!');
+    }
+
+    async function generateAiQuestions() {
+      if (!geminiApiKey) {
+        alert('Please set your Gemini API Key first by clicking "Set Gemini API Key"!');
+        openApiKeyModal();
+        return;
+      }
+
+      const topic = document.getElementById('ai-topic').value;
+      const diff = document.getElementById('ai-difficulty').value;
+      const count = parseInt(document.getElementById('ai-count').value);
+      const loading = document.getElementById('ai-loading');
+
+      loading.classList.remove('hidden');
+
+      const prompt = `Generate ${count} UK Year 9 Maths practice questions on the topic "${topic}" at difficulty level "${diff}".
+Return strictly valid JSON only in this structure without markdown code blocks:
+[
+  {
+    "q": "Question text using HTML superscript like 2<sup>3</sup> where needed",
+    "opts": ["Option 1", "Option 2", "Option 3", "Option 4"],
+    "ans": 0
+  }
+]
+Make sure ans is 0, 1, 2, or 3 corresponding to the index of the correct option in opts.`;
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+
+        const data = await response.json();
+        let text = data.candidates[0].content.parts[0].text.trim();
+        text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        const questions = JSON.parse(text);
+
+        assignedTests.push({
+          id: 't_' + Date.now(),
+          topic: topic,
+          difficulty: diff,
+          questionsCount: questions.length,
+          questions: questions,
+          status: 'Pending'
+        });
+
+        localStorage.setItem('assignedTests', JSON.stringify(assignedTests));
+        loading.classList.add('hidden');
+        closeAiModal();
+        renderParentDashboard();
+        alert('AI Practice Task successfully generated & assigned!');
+      } catch (err) {
+        loading.classList.add('hidden');
+        alert('Failed to generate questions. Please check your Gemini API key and try again.');
+      }
+    }
+
+    function startAssignedTest(testId) {
+      const test = assignedTests.find(t => t.id === testId);
+      if (!test || !test.questions) return;
+
+      activeTest = test;
+      currentQIndex = 0;
+      userAnswers = {};
+
+      document.getElementById('student-view').classList.add('hidden');
+      document.getElementById('test-runner-view').classList.remove('hidden');
+
+      document.getElementById('runner-topic-tag').innerText = activeTest.topic;
+      document.getElementById('q-total').innerText = activeTest.questions.length;
+
+      renderQuestion();
+    }
+
     async function fetchGcsePaperJson() {
       const board = document.getElementById('filter-board').value;
       const year = document.getElementById('filter-year').value;
@@ -347,7 +534,7 @@
             </div>
 
             <div class="border-t border-slate-700/80 pt-4">
-              <button onclick="startLoadedJsonPaper()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm">
+              <button onclick="startLoadedJsonPaper()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg transition text-sm">
                 Start Interactive GCSE Exam Questions (${loadedPaper.questions.length} Questions)
               </button>
             </div>
@@ -425,6 +612,11 @@
       });
 
       const scorePct = Math.round((correct / activeTest.questions.length) * 100);
+      if (activeTest.id) {
+        activeTest.score = scorePct;
+        activeTest.status = scorePct >= 70 ? 'Passed' : 'Needs Practice';
+      }
+
       document.getElementById('test-runner-view').classList.add('hidden');
       document.getElementById('test-summary-view').classList.remove('hidden');
 
