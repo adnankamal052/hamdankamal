@@ -3,7 +3,7 @@
   "year": "2023",
   "tier": "Higher",
   "paper": "Paper 1",
-  "title": "Edexcel GCSE (9-1) Mathematics June 2023 Paper 1 Non-Calculator",
+  "title": "Edexcel GCSE (9-1) Mathematics June 2023 Paper 1 Non-Calculator (Full 24 Questions)",
   "pdfUrl": "https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Past-Papers/Edexcel/Paper-1H/MA/June%202023%20MA.pdf",
   "questions": [
     { "q": "<b>Q1. [3 marks]</b> Work out 8.46 ÷ 0.15", "opts": ["56.4", "5.64", "564", "0.564"], "ans": 0 },
@@ -15,6 +15,20 @@
     { "q": "<b>Q7. [3 marks]</b> Expand and simplify fully: (<i>x</i> + 5)(<i>x</i> - 3)", "opts": ["<i>x</i><sup>2</sup> + 2<i>x</i> - 15", "<i>x</i><sup>2</sup> - 2<i>x</i> - 15", "<i>x</i><sup>2</sup> + 8<i>x</i> - 15", "<i>x</i><sup>2</sup> + 2<i>x</i> + 15"], "ans": 0 },
     { "q": "<b>Q8. [3 marks]</b> Pressure = Force ÷ Area. A force of 90 N is applied to a base area of 30 cm<sup>2</sup>. Calculate the pressure.", "opts": ["3 N/cm<sup>2</sup>", "2700 N/cm<sup>2</sup>", "0.33 N/cm<sup>2</sup>", "30 N/cm<sup>2</sup>"], "ans": 0 },
     { "q": "<b>Q9. [4 marks]</b> Solve the simultaneous equations:<br><b>2<i>y</i> = 3<i>x</i> - 22</b><br><b>2 - 2<i>y</i> = <i>x</i></b>", "opts": ["<i>x</i> = 5, <i>y</i> = -3.5", "<i>x</i> = 4, <i>y</i> = -5", "<i>x</i> = 6, <i>y</i> = -2", "<i>x</i> = 2, <i>y</i> = -8"], "ans": 0 },
-    { "q": "<b>Q10. [2 marks]</b> Write 0.000045 in standard form.", "opts": ["4.5 × 10<sup>-5</sup>", "4.5 × 10<sup>-4</sup>", "45 × 10<sup>-6</sup>", "4.5 × 10<sup>5</sup>"], "ans": 0 }
+    { "q": "<b>Q10. [2 marks]</b> Write 0.000045 in standard form.", "opts": ["4.5 × 10<sup>-5</sup>", "4.5 × 10<sup>-4</sup>", "45 × 10<sup>-6</sup>", "4.5 × 10<sup>5</sup>"], "ans": 0 },
+    { "q": "<b>Q11. [3 marks]</b> Factorise fully: 12<i>a</i><sup>2</sup><i>b</i> + 18<i>ab</i><sup>2</sup>", "opts": ["6<i>ab</i>(2<i>a</i> + 3<i>b</i>)", "3<i>ab</i>(4<i>a</i> + 6<i>b</i>)", "6(2<i>a</i><sup>2</sup><i>b</i> + 3<i>ab</i><sup>2</sup>)", "<i>ab</i>(12<i>a</i> + 18<i>b</i>)"], "ans": 0 },
+    { "q": "<b>Q12. [3 marks]</b> Make <i>t</i> the subject of the formula: <i>w</i> = 3<i>t</i> - 7", "opts": ["<i>t</i> = <span class='frac'><span class='top'><i>w</i> + 7</span><span class='bottom'>3</span></span>", "<i>t</i> = <span class='frac'><span class='top'><i>w</i> - 7</span><span class='bottom'>3</span></span>", "<i>t</i> = 3<i>w</i> + 7", "<i>t</i> = <span class='frac'><span class='top'><i>w</i></span><span class='bottom'>3</span></span> + 7"], "ans": 0 },
+    { "q": "<b>Q13. [4 marks]</b> Solve the quadratic equation by factorising: <i>x</i><sup>2</sup> - 7<i>x</i> + 12 = 0", "opts": ["<i>x</i> = 3, <i>x</i> = 4", "<i>x</i> = -3, <i>x</i> = -4", "<i>x</i> = 2, <i>x</i> = 6", "<i>x</i> = -2, <i>x</i> = -6"], "ans": 0 },
+    { "q": "<b>Q14. [3 marks]</b> Work out the value of 64<sup><span class='frac'><span class='top'>2</span><span class='bottom'>3</span></span></sup>", "opts": ["16", "8", "32", "128"], "ans": 0 },
+    { "q": "<b>Q15. [3 marks]</b> Simplify fully: <span class='frac'><span class='top'>√45 + √20</span><span class='bottom'>√5</span></span>", "opts": ["5", "√65", "9", "25"], "ans": 0 },
+    { "q": "<b>Q16. [4 marks]</b> A car depreciates in value by 20% in its first year and 10% in its second year. Work out the overall percentage decrease.", "opts": ["28%", "30%", "32%", "25%"], "ans": 0 },
+    { "q": "<b>Q17. [3 marks]</b> Write 0.2777... as a fraction in its simplest form.", "opts": ["<span class='frac'><span class='top'>5</span><span class='bottom'>18</span></span>", "<span class='frac'><span class='top'>27</span><span class='bottom'>99</span></span>", "<span class='frac'><span class='top'>1</span><span class='bottom'>4</span></span>", "<span class='frac'><span class='top'>27</span><span class='bottom'>90</span></span>"], "ans": 0 },
+    { "q": "<b>Q18. [3 marks]</b> In a right-angled triangle, opposite = 6 cm and hypotenuse = 12 cm. Find angle θ.", "opts": ["30°", "45°", "60°", "15°"], "ans": 0 },
+    { "q": "<b>Q19. [4 marks]</b> Solve the inequality: 3<i>x</i> + 2 < 5<i>x</i> - 8", "opts": ["<i>x</i> > 5", "<i>x</i> < 5", "<i>x</i> > 3", "<i>x</i> < -3"], "ans": 0 },
+    { "q": "<b>Q20. [3 marks]</b> Rationalise the denominator: <span class='frac'><span class='top'>6</span><span class='bottom'>√3</span></span>", "opts": ["2√3", "3√3", "6√3", "√3"], "ans": 0 },
+    { "q": "<b>Q21. [4 marks]</b> Functions f(<i>x</i>) = 2<i>x</i> + 3 and g(<i>x</i>) = <i>x</i><sup>2</sup>. Find fg(4).", "opts": ["35", "121", "19", "22"], "ans": 0 },
+    { "q": "<b>Q22. [4 marks]</b> Complete the square for <i>x</i><sup>2</sup> - 6<i>x</i> + 13", "opts": ["(<i>x</i> - 3)<sup>2</sup> + 4", "(<i>x</i> - 3)<sup>2</sup> + 13", "(<i>x</i> + 3)<sup>2</sup> + 4", "(<i>x</i> - 6)<sup>2</sup> + 13"], "ans": 0 },
+    { "q": "<b>Q23. [3 marks]</b> The perimeter of a sector of a circle with radius 6 cm is 12 + 2π cm. Find the sector angle.", "opts": ["60°", "90°", "45°", "30°"], "ans": 0 },
+    { "q": "<b>Q24. [5 marks]</b> Solve the non-linear simultaneous equations:<br><b><i>y</i> = <i>x</i><sup>2</sup> + 3<i>x</i> - 4</b><br><b><i>y</i> = 2<i>x</i> + 2</b>", "opts": ["(2, 6) and (-3, -4)", "(3, 8) and (-2, -2)", "(1, 4) and (-4, -6)", "(2, 4) and (-3, -1)"], "ans": 0 }
   ]
 }
