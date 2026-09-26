@@ -70,7 +70,6 @@
         </div>
       </div>
 
-      <!-- User Status & Logout -->
       <div class="flex items-center gap-3">
         <div id="user-pill" class="flex items-center gap-2 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-xs font-medium">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -91,8 +90,8 @@
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
         <div>
           <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Parent Control Panel</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Assign & Review Maths Practice</h2>
-          <p class="text-slate-300 text-sm mt-1">Assign custom topic tests for your son, set pass percentage targets, and track performance.</p>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Assign Infinite Maths Practice Papers</h2>
+          <p class="text-slate-300 text-sm mt-1">Assign custom topic tests for your son. Every test paper is dynamically generated with fresh questions.</p>
         </div>
         <div class="flex gap-2">
           <button onclick="openPinModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold px-4 py-3 rounded-xl transition text-xs flex items-center gap-2">
@@ -104,7 +103,6 @@
         </div>
       </div>
 
-      <!-- Metrics Summary -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
           <p class="text-xs text-slate-400 font-medium">Total Tests Assigned</p>
@@ -124,7 +122,6 @@
         </div>
       </div>
 
-      <!-- Assigned Work & Topic Mastery -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-slate-800/50 border border-slate-700 p-5 rounded-2xl">
           <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
@@ -148,7 +145,7 @@
         <div>
           <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Student Dashboard</span>
           <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Complete your assigned tasks to practice for your assessments.</p>
+          <p class="text-slate-300 text-sm mt-1">Complete your assigned tasks. Questions are dynamically generated every time!</p>
         </div>
         <div class="text-right">
           <span class="text-2xl font-extrabold text-amber-400">🔥 1 Day Streak</span>
@@ -229,6 +226,7 @@
           <select id="modal-count" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
             <option value="5" selected>5 Questions (Quick Check)</option>
             <option value="10">10 Questions (Full Test)</option>
+            <option value="15">15 Questions (Challenge Paper)</option>
           </select>
         </div>
 
@@ -268,13 +266,11 @@
   </div>
 
   <script>
-    // Authentication Passcodes
     let parentPin = localStorage.getItem('parentPin') || '9999';
     let studentPin = localStorage.getItem('studentPin') || '1234';
     let currentRole = null;
     let selectedLoginRole = 'student';
 
-    // Data Storage
     let assignedTests = JSON.parse(localStorage.getItem('assignedTests')) || [
       { id: 't1', topic: 'Indices & Laws of Indices', questionsCount: 5, target: 70, status: 'Pending', createdAt: 'Today' },
       { id: 't2', topic: 'Simultaneous Equations', questionsCount: 5, target: 80, status: 'Passed', score: 80, createdAt: 'Yesterday' }
@@ -285,26 +281,118 @@
       'Simultaneous Equations': { attempted: 5, passed: 4 },
       'Trigonometry & Pythagoras': { attempted: 0, passed: 0 },
       'Fractions & Decimals': { attempted: 0, passed: 0 },
-      'Ratio & Direct Proportion': { attempted: 0, passed: 0 }
+      'Ratio & Direct Proportion': { attempted: 0, passed: 0 },
+      'Algebra & Quadratics': { attempted: 0, passed: 0 },
+      'Standard Form': { attempted: 0, passed: 0 }
     };
 
     let activeTest = null;
     let currentQIndex = 0;
     let userAnswers = {};
 
-    const UK_QUESTION_BANK = {
-      'Indices & Laws of Indices': [
-        { q: "Simplify 2<sup>3</sup> × 2<sup>4</sup>", opts: ["2<sup>7</sup>", "2<sup>12</sup>", "4<sup>7</sup>", "2<sup>1</sup>"], ans: 0 },
-        { q: "Work out the value of 5<sup>-2</sup>", opts: ["-10", "<span class='frac'><span class='top'>1</span><span class='bottom'>25</span></span>", "25", "-25"], ans: 1 },
-        { q: "Simplify (<i>x</i><sup>4</sup>)<sup>3</sup>", opts: ["<i>x</i><sup>7</sup>", "<i>x</i><sup>12</sup>", "<i>x</i><sup>1</sup>", "3<i>x</i><sup>4</sup>"], ans: 1 },
-        { q: "Work out the value of 81<sup><span class='frac'><span class='top'>1</span><span class='bottom'>2</span></span></sup>", opts: ["9", "40.5", "3", "18"], ans: 0 },
-        { q: "Simplify <span class='frac'><span class='top'><i>y</i><sup>9</sup></span><span class='bottom'><i>y</i><sup>3</sup></span></span>", opts: ["<i>y</i><sup>3</sup>", "<i>y</i><sup>6</sup>", "<i>y</i><sup>27</sup>", "<i>y</i><sup>12</sup>"], ans: 1 }
-      ],
-      'Simultaneous Equations': [
-        { q: "Solve the simultaneous equations:<br><b><i>x</i> + <i>y</i> = 10</b><br><b><i>x</i> - <i>y</i> = 4</b>", opts: ["<i>x</i> = 7, <i>y</i> = 3", "<i>x</i> = 6, <i>y</i> = 4", "<i>x</i> = 8, <i>y</i> = 2", "<i>x</i> = 5, <i>y</i> = 5"], ans: 0 },
-        { q: "Solve the simultaneous equations:<br><b>2<i>x</i> + <i>y</i> = 11</b><br><b><i>x</i> + <i>y</i> = 7</b>", opts: ["<i>x</i> = 4, <i>y</i> = 3", "<i>x</i> = 3, <i>y</i> = 4", "<i>x</i> = 5, <i>y</i> = 1", "<i>x</i> = 2, <i>y</i> = 7"], ans: 0 }
-      ]
-    };
+    // DYNAMIC QUESTION GENERATORS
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function shuffleOptions(correctAns, wrongOpts) {
+      const allOpts = [correctAns, ...wrongOpts];
+      for (let i = allOpts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allOpts[i], allOpts[j]] = [allOpts[j], allOpts[i]];
+      }
+      return {
+        opts: allOpts,
+        ans: allOpts.indexOf(correctAns)
+      };
+    }
+
+    function generateDynamicQuestion(topic) {
+      if (topic === 'Indices & Laws of Indices') {
+        const type = randInt(1, 4);
+        const base = randInt(2, 5);
+        if (type === 1) { // Multiplication: base^m * base^n
+          const m = randInt(2, 6);
+          const n = randInt(2, 6);
+          const correct = `${base}<sup>${m + n}</sup>`;
+          const wrongs = [`${base}<sup>${m * n}</sup>`, `${base * 2}<sup>${m + n}</sup>`, `${base}<sup>${Math.abs(m - n) || 1}</sup>`];
+          const sh = shuffleOptions(correct, wrongs);
+          return { q: `Simplify ${base}<sup>${m}</sup> × ${base}<sup>${n}</sup>`, opts: sh.opts, ans: sh.ans };
+        } else if (type === 2) { // Division: base^m / base^n
+          const n = randInt(2, 5);
+          const m = n + randInt(2, 5);
+          const correct = `${base}<sup>${m - n}</sup>`;
+          const wrongs = [`${base}<sup>${Math.floor(m / n)}</sup>`, `${base}<sup>${m + n}</sup>`, `${base}<sup>${m * n}</sup>`];
+          const sh = shuffleOptions(correct, wrongs);
+          return { q: `Simplify <span class='frac'><span class='top'>${base}<sup>${m}</sup></span><span class='bottom'>${base}<sup>${n}</sup></span></span>`, opts: sh.opts, ans: sh.ans };
+        } else if (type === 3) { // Power of Power: (x^m)^n
+          const m = randInt(2, 5);
+          const n = randInt(2, 4);
+          const correct = `<i>x</i><sup>${m * n}</sup>`;
+          const wrongs = [`<i>x</i><sup>${m + n}</sup>`, `<i>x</i><sup>${m - n || 1}</sup>`, `${n}<i>x</i><sup>${m}</sup>`];
+          const sh = shuffleOptions(correct, wrongs);
+          return { q: `Simplify (<i>x</i><sup>${m}</sup>)<sup>${n}</sup>`, opts: sh.opts, ans: sh.ans };
+        } else { // Negative index: base^-2
+          const p = randInt(2, 4);
+          const val = Math.pow(base, p);
+          const correct = `<span class='frac'><span class='top'>1</span><span class='bottom'>${val}</span></span>`;
+          const wrongs = [`-${val}`, `${val}`, `<span class='frac'><span class='top'>1</span><span class='bottom'>${base * p}</span></span>`];
+          const sh = shuffleOptions(correct, wrongs);
+          return { q: `Work out the value of ${base}<sup>-${p}</sup>`, opts: sh.opts, ans: sh.ans };
+        }
+      } else if (topic === 'Simultaneous Equations') {
+        const x = randInt(2, 8);
+        const y = randInt(1, 6);
+        const sum = x + y;
+        const diff = x - y;
+        const correct = `<i>x</i> = ${x}, <i>y</i> = ${y}`;
+        const wrongs = [`<i>x</i> = ${y}, <i>y</i> = ${x}`, `<i>x</i> = ${x + 1}, <i>y</i> = ${y - 1}`, `<i>x</i> = ${x + 2}, <i>y</i> = ${y}`];
+        const sh = shuffleOptions(correct, wrongs);
+        return {
+          q: `Solve the simultaneous equations:<br><b><i>x</i> + <i>y</i> = ${sum}</b><br><b><i>x</i> - <i>y</i> = ${diff}</b>`,
+          opts: sh.opts,
+          ans: sh.ans
+        };
+      } else if (topic === 'Trigonometry & Pythagoras') {
+        const a = randInt(3, 8);
+        const b = randInt(4, 10);
+        const c2 = a * a + b * b;
+        const c = Math.sqrt(c2).toFixed(1);
+        const correct = `${c} cm`;
+        const wrongs = [`${(a + b).toFixed(1)} cm`, `${Math.sqrt(Math.abs(a*a - b*b)).toFixed(1)} cm`, `${(c2 / 2).toFixed(1)} cm`];
+        const sh = shuffleOptions(correct, wrongs);
+        return {
+          q: `In a right-angled triangle, the two shorter sides are ${a} cm and ${b} cm. Calculate the length of the hypotenuse (1 d.p.).`,
+          opts: sh.opts,
+          ans: sh.ans
+        };
+      } else if (topic === 'Ratio & Direct Proportion') {
+        const r1 = randInt(1, 3);
+        const r2 = randInt(2, 5);
+        const totalParts = r1 + r2;
+        const mult = randInt(5, 12);
+        const totalAmount = totalParts * mult;
+        const correct = `£${r1 * mult} and £${r2 * mult}`;
+        const wrongs = [`£${r1 * mult + 5} and £${r2 * mult - 5}`, `£${totalAmount / 2} and £${totalAmount / 2}`, `£${r1 * 10} and £${r2 * 10}`];
+        const sh = shuffleOptions(correct, wrongs);
+        return {
+          q: `Share £${totalAmount} in the ratio ${r1} : ${r2}`,
+          opts: sh.opts,
+          ans: sh.ans
+        };
+      } else { // Default Algebra
+        const a = randInt(2, 5);
+        const b = randInt(3, 8);
+        const correct = `${a}<i>x</i> + ${a * b}`;
+        const wrongs = [`${a}<i>x</i> + ${b}`, `<i>x</i> + ${a * b}`, `${a + 1}<i>x</i> + ${b}`];
+        const sh = shuffleOptions(correct, wrongs);
+        return {
+          q: `Expand the bracket: ${a}(<i>x</i> + ${b})`,
+          opts: sh.opts,
+          ans: sh.ans
+        };
+      }
+    }
 
     function setLoginRole(role) {
       selectedLoginRole = role;
@@ -415,7 +503,7 @@
         <div class="bg-slate-900 border border-slate-700/80 p-5 rounded-xl space-y-3">
           <span class="text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md">Assigned Homework</span>
           <h4 class="text-lg font-bold text-white">${t.topic}</h4>
-          <p class="text-xs text-slate-400">${t.questionsCount} UK GCSE Style Questions • Target: ${t.target}%</p>
+          <p class="text-xs text-slate-400">${t.questionsCount} Dynamic UK GCSE Style Questions • Target: ${t.target}%</p>
           <button onclick="startTest('${t.id}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition">Start Practice Paper</button>
         </div>
       `).join('') || `<p class="text-slate-400 text-sm">No pending tests assigned right now!</p>`;
@@ -461,9 +549,16 @@
 
     function startTest(testId) {
       const test = assignedTests.find(t => t.id === testId);
+      
+      // Generate dynamic questions on the fly
+      const generatedQs = [];
+      for (let i = 0; i < test.questionsCount; i++) {
+        generatedQs.push(generateDynamicQuestion(test.topic));
+      }
+
       activeTest = {
         ...test,
-        questions: UK_QUESTION_BANK[test.topic] || UK_QUESTION_BANK['Indices & Laws of Indices']
+        questions: generatedQs
       };
       currentQIndex = 0;
       userAnswers = {};
