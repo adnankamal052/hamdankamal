@@ -56,7 +56,7 @@
     </div>
   </div>
 
-  <!-- Top Navigation Bar -->
+  <!-- Navigation -->
   <nav class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-40 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
@@ -65,11 +65,10 @@
         </div>
         <div>
           <h1 class="font-bold text-lg text-white leading-tight">Year 9 & GCSE Maths Portal</h1>
-          <p class="text-xs text-indigo-400 font-medium">UK Curriculum • Edexcel / AQA / OCR</p>
+          <p class="text-xs text-indigo-400 font-medium">UK Curriculum • Dynamic JSON Loader</p>
         </div>
       </div>
 
-      <!-- Mode Selector Tabs -->
       <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1 rounded-xl">
         <button id="nav-mode-gen" onclick="switchPortalMode('generator')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">
           <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Dynamic Generator
@@ -99,8 +98,8 @@
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
         <div>
           <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Parent Control Panel</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Assign Maths Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Assign custom topic tests or real GCSE exam papers for your son.</p>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Assign Practice Papers</h2>
+          <p class="text-slate-300 text-sm mt-1">Assign topic tests or real GCSE exam papers for your son.</p>
         </div>
         <div class="flex gap-2">
           <button onclick="openPinModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold px-4 py-3 rounded-xl transition text-xs flex items-center gap-2">
@@ -148,16 +147,13 @@
       </div>
     </div>
 
-    <!-- STUDENT / CHILD VIEW -->
+    <!-- STUDENT VIEW -->
     <div id="student-view" class="space-y-6 hidden">
       <div class="bg-gradient-to-r from-emerald-900/60 via-teal-900/40 to-slate-900 border border-emerald-500/30 p-6 rounded-2xl flex justify-between items-center">
         <div>
           <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Student Dashboard</span>
-          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 & GCSE Practice Papers</h2>
-          <p class="text-slate-300 text-sm mt-1">Complete your assigned tasks or select a real GCSE Past Paper below.</p>
-        </div>
-        <div class="text-right">
-          <span class="text-2xl font-extrabold text-amber-400">🔥 1 Day Streak</span>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Papers</h2>
+          <p class="text-slate-300 text-sm mt-1">Complete assigned tasks or choose a Real GCSE Past Paper.</p>
         </div>
       </div>
 
@@ -169,62 +165,57 @@
       </div>
     </div>
 
-    <!-- REAL GCSE PAST PAPERS VIEW -->
+    <!-- REAL GCSE PAST PAPERS VIEW (JSON DRIVEN) -->
     <div id="gcse-papers-view" class="space-y-6 hidden">
       <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl space-y-4">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Real GCSE Exam Bank</span>
-            <h2 class="text-2xl font-extrabold text-white mt-2">Select Exam Board & Year</h2>
-            <p class="text-slate-300 text-sm mt-1">Practice authentic past paper questions from UK exam boards (AQA, Edexcel, OCR).</p>
-          </div>
+        <div>
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Dynamic GCSE JSON Loader</span>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Select Exam Board & Year</h2>
+          <p class="text-slate-300 text-sm mt-1">Loads JSON past paper files on demand from your GitHub repository.</p>
         </div>
 
-        <!-- Filters Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Exam Board</label>
-            <select id="filter-board" onchange="renderGcsePapers()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-medium outline-none">
-              <option value="Edexcel" selected>Edexcel (1MA1)</option>
-              <option value="AQA">AQA (8300)</option>
-              <option value="OCR">OCR (J560)</option>
+            <select id="filter-board" onchange="fetchGcsePaperJson()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white outline-none">
+              <option value="edexcel" selected>Edexcel</option>
+              <option value="aqa">AQA</option>
+              <option value="ocr">OCR</option>
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Exam Year</label>
-            <select id="filter-year" onchange="renderGcsePapers()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-medium outline-none">
+            <select id="filter-year" onchange="fetchGcsePaperJson()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white outline-none">
               <option value="2023" selected>June 2023</option>
               <option value="2022">June 2022</option>
               <option value="2021">November 2021</option>
-              <option value="2019">June 2019</option>
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Exam Tier</label>
-            <select id="filter-tier" onchange="renderGcsePapers()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-medium outline-none">
-              <option value="Higher" selected>Higher Tier (Grades 4–9)</option>
-              <option value="Foundation">Foundation Tier (Grades 1–5)</option>
+            <select id="filter-tier" onchange="fetchGcsePaperJson()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white outline-none">
+              <option value="higher" selected>Higher Tier</option>
+              <option value="foundation">Foundation Tier</option>
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Paper Type</label>
-            <select id="filter-paper" onchange="renderGcsePapers()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-medium outline-none">
-              <option value="Paper 1" selected>Paper 1 (Non-Calculator)</option>
-              <option value="Paper 2">Paper 2 (Calculator)</option>
-              <option value="Paper 3">Paper 3 (Calculator)</option>
+            <select id="filter-paper" onchange="fetchGcsePaperJson()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white outline-none">
+              <option value="paper1" selected>Paper 1</option>
+              <option value="paper2">Paper 2</option>
+              <option value="paper3">Paper 3</option>
             </select>
           </div>
         </div>
       </div>
 
-      <!-- Paper Preview Card -->
       <div id="past-paper-container" class="space-y-4"></div>
     </div>
 
-    <!-- INTERACTIVE TEST RUNNER -->
+    <!-- TEST RUNNER -->
     <div id="test-runner-view" class="hidden max-w-3xl mx-auto space-y-6">
       <div class="flex items-center justify-between bg-slate-800 border border-slate-700 p-4 rounded-xl">
         <div>
@@ -238,7 +229,6 @@
 
       <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl space-y-6">
         <div id="question-box" class="text-xl font-medium text-slate-100 leading-relaxed min-h-[60px]"></div>
-
         <div id="options-box" class="grid grid-cols-1 gap-3"></div>
 
         <div class="flex justify-between items-center pt-4 border-t border-slate-700/50">
@@ -251,83 +241,13 @@
     <!-- SUMMARY VIEW -->
     <div id="test-summary-view" class="hidden max-w-3xl mx-auto space-y-6">
       <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl text-center space-y-4">
-        <div class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 rounded-full flex items-center justify-center text-3xl font-black mx-auto" id="summary-score-badge">
-          80%
-        </div>
+        <div class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 rounded-full flex items-center justify-center text-3xl font-black mx-auto" id="summary-score-badge">80%</div>
         <h2 class="text-2xl font-extrabold text-white" id="summary-headline">Pass Target Achieved!</h2>
-        <p class="text-slate-300 text-sm" id="summary-subtext">Well done! You passed this practice paper.</p>
-        
         <button onclick="switchView('dashboard')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl transition">Return to Dashboard</button>
       </div>
     </div>
 
   </main>
-
-  <!-- ASSIGN TEST MODAL -->
-  <div id="assign-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 space-y-5 shadow-2xl">
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-file-circle-plus text-indigo-400 mr-2"></i> Assign UK Practice Paper</h3>
-        <button onclick="closeAssignModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Select Year 9 Topic</label>
-          <select id="modal-topic" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
-            <option value="Indices & Laws of Indices">Indices & Laws of Indices</option>
-            <option value="Simultaneous Equations">Simultaneous Equations</option>
-            <option value="Trigonometry & Pythagoras">Trigonometry & Pythagoras</option>
-            <option value="Fractions & Decimals">Fractions & Recurring Decimals</option>
-            <option value="Ratio & Direct Proportion">Ratio & Direct Proportion</option>
-            <option value="Algebra & Quadratics">Algebra & Quadratic Expansion</option>
-            <option value="Standard Form">Standard Form & Estimation</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Number of Questions</label>
-          <select id="modal-count" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
-            <option value="5" selected>5 Questions (Quick Check)</option>
-            <option value="10">10 Questions (Full Test)</option>
-            <option value="15">15 Questions (Challenge Paper)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Passing Target (%)</label>
-          <input type="number" id="modal-pass-target" value="70" min="50" max="100" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
-        </div>
-      </div>
-
-      <div class="flex justify-end gap-3 pt-3">
-        <button onclick="closeAssignModal()" class="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold">Cancel</button>
-        <button onclick="confirmAssignTest()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30">Assign to Son</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CHANGE PIN MODAL -->
-  <div id="pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-2xl p-6 space-y-4 shadow-2xl">
-      <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-key text-indigo-400 mr-2"></i> Update Passcodes</h3>
-      
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 mb-1">New Parent PIN</label>
-        <input type="text" id="new-parent-pin" maxlength="6" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono">
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 mb-1">New Son PIN</label>
-        <input type="text" id="new-student-pin" maxlength="6" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono">
-      </div>
-
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="closePinModal()" class="px-3 py-2 text-slate-400 hover:text-white text-xs font-semibold">Cancel</button>
-        <button onclick="savePins()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl">Save Passcodes</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     let parentPin = localStorage.getItem('parentPin') || '9999';
@@ -336,120 +256,18 @@
     let selectedLoginRole = 'student';
     let portalMode = 'generator';
 
-    let assignedTests = JSON.parse(localStorage.getItem('assignedTests')) || [
-      { id: 't1', topic: 'Indices & Laws of Indices', questionsCount: 5, target: 70, status: 'Pending', createdAt: 'Today' },
-      { id: 't2', topic: 'Simultaneous Equations', questionsCount: 5, target: 80, status: 'Passed', score: 80, createdAt: 'Yesterday' }
-    ];
+    let assignedTests = JSON.parse(localStorage.getItem('assignedTests')) || [];
+    let topicStats = JSON.parse(localStorage.getItem('topicStats')) || {};
 
-    let topicStats = JSON.parse(localStorage.getItem('topicStats')) || {
-      'Indices & Laws of Indices': { attempted: 5, passed: 4 },
-      'Simultaneous Equations': { attempted: 5, passed: 4 },
-      'Trigonometry & Pythagoras': { attempted: 0, passed: 0 },
-      'Fractions & Decimals': { attempted: 0, passed: 0 },
-      'Ratio & Direct Proportion': { attempted: 0, passed: 0 },
-      'Algebra & Quadratics': { attempted: 0, passed: 0 },
-      'Standard Form': { attempted: 0, passed: 0 }
-    };
-
+    let loadedPaper = null;
     let activeTest = null;
     let currentQIndex = 0;
     let userAnswers = {};
 
-    // REAL GCSE PAST PAPERS DATABASE (EXPANDED EXAM BOARD DATASET)
-    const GCSE_PAST_PAPERS = [
-      {
-        board: 'Edexcel',
-        year: '2023',
-        tier: 'Higher',
-        paper: 'Paper 1',
-        title: 'Edexcel GCSE (9-1) Mathematics June 2023 Paper 1 Non-Calculator',
-        pdfUrl: 'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Past-Papers/Edexcel/Paper-1H/MA/June%202023%20MA.pdf',
-        questions: [
-          { q: "<b>Q1. [3 marks]</b> Work out 8.46 ÷ 0.15", opts: ["56.4", "5.64", "564", "0.564"], ans: 0 },
-          { q: "<b>Q2. [2 marks]</b> Work out 3<span class='frac'><span class='top'>1</span><span class='bottom'>4</span></span> - 1<span class='frac'><span class='top'>2</span><span class='bottom'>3</span></span>", opts: ["1<span class='frac'><span class='top'>7</span><span class='bottom'>12</span></span>", "2<span class='frac'><span class='top'>1</span><span class='bottom'>12</span></span>", "1<span class='frac'><span class='top'>5</span><span class='bottom'>12</span></span>", "2<span class='frac'><span class='top'>5</span><span class='bottom'>12</span></span>"], ans: 0 },
-          { q: "<b>Q3. [4 marks]</b> A cube has a total surface area of 150 cm<sup>2</sup>. Work out the volume of the cube.", opts: ["125 cm<sup>3</sup>", "25 cm<sup>3</sup>", "150 cm<sup>3</sup>", "625 cm<sup>3</sup>"], ans: 0 },
-          { q: "<b>Q4. [2 marks]</b> The ratio of red counters to blue counters in a bag is 3 : 7. There are 42 blue counters. How many red counters are there?", opts: ["18", "14", "21", "28"], ans: 0 },
-          { q: "<b>Q5. [3 marks]</b> Work out the value of 5<sup>-2</sup> × 10<sup>3</sup>", opts: ["40", "4", "250", "100"], ans: 0 },
-          { q: "<b>Q6. [3 marks]</b> A line L<sub>1</sub> passes through (0, 4) and (2, 10). Find the gradient of line L<sub>1</sub>.", opts: ["3", "2", "6", "4"], ans: 0 },
-          { q: "<b>Q7. [3 marks]</b> Expand and simplify fully: (<i>x</i> + 5)(<i>x</i> - 3)", opts: ["<i>x</i><sup>2</sup> + 2<i>x</i> - 15", "<i>x</i><sup>2</sup> - 2<i>x</i> - 15", "<i>x</i><sup>2</sup> + 8<i>x</i> - 15", "<i>x</i><sup>2</sup> + 2<i>x</i> + 15"], ans: 0 },
-          { q: "<b>Q8. [3 marks]</b> Pressure = Force ÷ Area. A force of 90 N is applied to a base area of 30 cm<sup>2</sup>. Calculate the pressure.", opts: ["3 N/cm<sup>2</sup>", "2700 N/cm<sup>2</sup>", "0.33 N/cm<sup>2</sup>", "30 N/cm<sup>2</sup>"], ans: 0 },
-          { q: "<b>Q9. [4 marks]</b> Solve the simultaneous equations:<br><b>2<i>y</i> = 3<i>x</i> - 22</b><br><b>2 - 2<i>y</i> = <i>x</i></b>", opts: ["<i>x</i> = 5, <i>y</i> = -3.5", "<i>x</i> = 4, <i>y</i> = -5", "<i>x</i> = 6, <i>y</i> = -2", "<i>x</i> = 2, <i>y</i> = -8"], ans: 0 },
-          { q: "<b>Q10. [2 marks]</b> Write 0.000045 in standard form.", opts: ["4.5 × 10<sup>-5</sup>", "4.5 × 10<sup>-4</sup>", "45 × 10<sup>-6</sup>", "4.5 × 10<sup>5</sup>"], ans: 0 }
-        ]
-      },
-      {
-        board: 'AQA',
-        year: '2023',
-        tier: 'Higher',
-        paper: 'Paper 1',
-        title: 'AQA GCSE Mathematics June 2023 Paper 1 Non-Calculator',
-        pdfUrl: 'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Past-Papers/AQA/Paper-1H/MA/June%202023%20MA.pdf',
-        questions: [
-          { q: "<b>Q1. [1 mark]</b> Work out 0.7 × 0.5", opts: ["0.35", "3.5", "0.035", "0.0035"], ans: 0 },
-          { q: "<b>Q2. [3 marks]</b> 2<sup><i>a</i></sup> × 3 × 5<sup>2</sup> = 600. Work out the value of <i>a</i>.", opts: ["<i>a</i> = 3", "<i>a</i> = 2", "<i>a</i> = 4", "<i>a</i> = 1"], ans: 0 },
-          { q: "<b>Q3. [2 marks]</b> Expand and simplify fully: 5(3<i>x</i> + 4) - 2(<i>x</i> - 1)", opts: ["13<i>x</i> + 22", "13<i>x</i> + 18", "15<i>x</i> + 18", "13<i>x</i> + 20"], ans: 0 },
-          { q: "<b>Q4. [3 marks]</b> Work out the size of an interior angle of a regular octagon.", opts: ["135°", "108°", "140°", "120°"], ans: 0 },
-          { q: "<b>Q5. [3 marks]</b> Express 180 as a product of its prime factors in index form.", opts: ["2<sup>2</sup> × 3<sup>2</sup> × 5", "2 × 3<sup>2</sup> × 5", "2<sup>3</sup> × 3 × 5", "2<sup>2</sup> × 3 × 5<sup>2</sup>"], ans: 0 }
-        ]
-      }
-    ];
-
-    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-
-    function shuffleOptions(correctAns, wrongOpts) {
-      const allOpts = [correctAns, ...wrongOpts];
-      for (let i = allOpts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [allOpts[i], allOpts[j]] = [allOpts[j], allOpts[i]];
-      }
-      return { opts: allOpts, ans: allOpts.indexOf(correctAns) };
-    }
-
-    function generateDynamicQuestion(topic) {
-      if (topic === 'Indices & Laws of Indices') {
-        const base = randInt(2, 5);
-        const m = randInt(2, 6);
-        const n = randInt(2, 6);
-        const correct = `${base}<sup>${m + n}</sup>`;
-        const wrongs = [`${base}<sup>${m * n}</sup>`, `${base * 2}<sup>${m + n}</sup>`, `${base}<sup>${Math.abs(m - n) || 1}</sup>`];
-        const sh = shuffleOptions(correct, wrongs);
-        return { q: `Simplify ${base}<sup>${m}</sup> × ${base}<sup>${n}</sup>`, opts: sh.opts, ans: sh.ans };
-      } else {
-        const x = randInt(2, 8);
-        const y = randInt(1, 6);
-        const correct = `<i>x</i> = ${x}, <i>y</i> = ${y}`;
-        const wrongs = [`<i>x</i> = ${y}, <i>y</i> = ${x}`, `<i>x</i> = ${x + 1}, <i>y</i> = ${y - 1}`, `<i>x</i> = ${x + 2}, <i>y</i> = ${y}`];
-        const sh = shuffleOptions(correct, wrongs);
-        return { q: `Solve: <i>x</i> + <i>y</i> = ${x + y} and <i>x</i> - <i>y</i> = ${x - y}`, opts: sh.opts, ans: sh.ans };
-      }
-    }
-
-    function switchPortalMode(mode) {
-      portalMode = mode;
-      document.getElementById('nav-mode-gen').className = mode === 'generator' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-      document.getElementById('nav-mode-past').className = mode === 'pastpapers' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-      
-      switchView('dashboard');
-    }
-
     function setLoginRole(role) {
       selectedLoginRole = role;
-      document.getElementById('login-error').classList.add('hidden');
       document.getElementById('login-pin').value = '';
-      
-      const tabStudent = document.getElementById('tab-student');
-      const tabParent = document.getElementById('tab-parent');
-      const pinLabel = document.getElementById('pin-label');
-
-      if (role === 'student') {
-        tabStudent.className = "py-2.5 rounded-lg text-xs font-bold transition bg-indigo-600 text-white";
-        tabParent.className = "py-2.5 rounded-lg text-xs font-bold text-slate-400 transition hover:text-white";
-        pinLabel.innerText = "Son's Passcode (Default: 1234)";
-      } else {
-        tabParent.className = "py-2.5 rounded-lg text-xs font-bold transition bg-indigo-600 text-white";
-        tabStudent.className = "py-2.5 rounded-lg text-xs font-bold text-slate-400 transition hover:text-white";
-        pinLabel.innerText = "Parent Passcode (Default: 9999)";
-      }
+      document.getElementById('pin-label').innerText = role === 'student' ? "Son's Passcode (Default: 1234)" : "Parent Passcode (Default: 9999)";
     }
 
     function attemptLogin() {
@@ -468,14 +286,14 @@
 
     function logout() {
       currentRole = null;
-      document.getElementById('login-pin').value = '';
-      document.getElementById('login-error').classList.add('hidden');
       document.getElementById('login-screen').classList.remove('hidden');
     }
 
-    function saveData() {
-      localStorage.setItem('assignedTests', JSON.stringify(assignedTests));
-      localStorage.setItem('topicStats', JSON.stringify(topicStats));
+    function switchPortalMode(mode) {
+      portalMode = mode;
+      document.getElementById('nav-mode-gen').className = mode === 'generator' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      document.getElementById('nav-mode-past').className = mode === 'pastpapers' ? "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition" : "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      switchView('dashboard');
     }
 
     function switchView(viewName) {
@@ -488,184 +306,75 @@
       if (viewName === 'dashboard') {
         if (portalMode === 'pastpapers') {
           document.getElementById('gcse-papers-view').classList.remove('hidden');
-          renderGcsePapers();
+          fetchGcsePaperJson();
         } else {
           if (currentRole === 'parent') {
             document.getElementById('parent-view').classList.remove('hidden');
-            renderParentDashboard();
           } else {
             document.getElementById('student-view').classList.remove('hidden');
-            renderStudentDashboard();
           }
         }
       }
     }
 
-    function renderGcsePapers() {
+    // DYNAMIC JSON FETCHING FUNCTION
+    async function fetchGcsePaperJson() {
       const board = document.getElementById('filter-board').value;
       const year = document.getElementById('filter-year').value;
-      const tier = document.getElementById('filter-tier').value;
       const paper = document.getElementById('filter-paper').value;
 
+      const filePath = `data/${board}-${year}-${paper}.json`;
       const container = document.getElementById('past-paper-container');
-      const filtered = GCSE_PAST_PAPERS.filter(p => p.board === board && p.year === year && p.tier === tier && p.paper === paper);
 
-      if (filtered.length > 0) {
-        const item = filtered[0];
+      container.innerHTML = `<div class="p-6 text-center text-slate-400 text-xs"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Fetching JSON dataset from GitHub...</div>`;
+
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error("JSON file not found");
+
+        loadedPaper = await response.json();
         container.innerHTML = `
           <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl space-y-4">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md uppercase">${item.board} GCSE ${item.year}</span>
-                <h3 class="text-xl font-bold text-white mt-2">${item.title}</h3>
-                <p class="text-xs text-slate-400 mt-1">${item.tier} Tier • ${item.paper} • ${item.questions.length} Exam Questions Available Online</p>
+                <span class="text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-md uppercase">${loadedPaper.board} ${loadedPaper.year}</span>
+                <h3 class="text-xl font-bold text-white mt-2">${loadedPaper.title}</h3>
+                <p class="text-xs text-slate-400 mt-1">${loadedPaper.tier} Tier • ${loadedPaper.questions.length} Questions Loaded via External JSON</p>
               </div>
-              <a href="${item.pdfUrl}" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+              <a href="${loadedPaper.pdfUrl}" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-file-pdf text-rose-400"></i> Open PDF Paper
               </a>
             </div>
 
             <div class="border-t border-slate-700/80 pt-4">
-              <button onclick="startGcsePaper('${item.board}', '${item.year}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm">
-                Start Interactive GCSE Exam Questions (${item.questions.length} Questions)
+              <button onclick="startLoadedJsonPaper()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm">
+                Start Interactive GCSE Exam Questions (${loadedPaper.questions.length} Questions)
               </button>
             </div>
           </div>
         `;
-      } else {
+      } catch (err) {
         container.innerHTML = `
-          <div class="bg-slate-800/50 border border-slate-700 p-8 rounded-2xl text-center space-y-3">
-            <div class="w-12 h-12 bg-slate-700 text-slate-400 rounded-full flex items-center justify-center text-xl mx-auto"><i class="fa-solid fa-folder-open"></i></div>
-            <h4 class="font-bold text-white text-base">Paper Not Found in Sample Bank</h4>
-            <p class="text-slate-400 text-xs">Try selecting <b>Edexcel</b> or <b>AQA</b> for <b>June 2023</b> to view the official exam paper questions!</p>
+          <div class="bg-slate-800/50 border border-slate-700 p-8 rounded-2xl text-center space-y-2">
+            <div class="w-10 h-10 bg-slate-700 text-slate-400 rounded-full flex items-center justify-center text-lg mx-auto"><i class="fa-solid fa-file-circle-xmark"></i></div>
+            <h4 class="font-bold text-white text-sm">Paper JSON file missing</h4>
+            <p class="text-slate-400 text-xs">Create <code>${filePath}</code> on GitHub to enable this paper!</p>
           </div>
         `;
       }
     }
 
-    function startGcsePaper(board, year) {
-      const paper = GCSE_PAST_PAPERS.find(p => p.board === board && p.year === year);
-      if (!paper) return;
-
+    function startLoadedJsonPaper() {
+      if (!loadedPaper) return;
       activeTest = {
-        topic: `${paper.board} GCSE ${paper.year}`,
-        questions: paper.questions,
+        topic: `${loadedPaper.board} GCSE ${loadedPaper.year}`,
+        questions: loadedPaper.questions,
         target: 75
       };
       currentQIndex = 0;
       userAnswers = {};
 
       document.getElementById('gcse-papers-view').classList.add('hidden');
-      document.getElementById('test-runner-view').classList.remove('hidden');
-
-      document.getElementById('runner-topic-tag').innerText = activeTest.topic;
-      document.getElementById('q-total').innerText = activeTest.questions.length;
-
-      renderQuestion();
-    }
-
-    function renderParentDashboard() {
-      document.getElementById('stat-total-tests').innerText = assignedTests.length;
-      
-      let totalAttempted = 0, totalPassed = 0;
-      Object.values(topicStats).forEach(s => {
-        totalAttempted += s.attempted;
-        totalPassed += s.passed;
-      });
-      const overallPct = totalAttempted > 0 ? Math.round((totalPassed / totalAttempted) * 100) : 0;
-      document.getElementById('stat-pass-rate').innerText = `${overallPct}%`;
-
-      const assignedList = document.getElementById('assigned-list');
-      assignedList.innerHTML = assignedTests.map(t => `
-        <div class="flex items-center justify-between p-3.5 bg-slate-900/60 rounded-xl border border-slate-700/60">
-          <div>
-            <span class="text-xs font-bold px-2 py-0.5 rounded ${t.status === 'Passed' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${t.status}</span>
-            <h4 class="font-bold text-slate-100 text-sm mt-1">${t.topic}</h4>
-            <p class="text-xs text-slate-400">${t.questionsCount} Questions • Target: ${t.target}%</p>
-          </div>
-          ${t.score !== undefined ? `<span class="text-lg font-bold text-emerald-400">${t.score}%</span>` : `<span class="text-xs text-slate-500">Pending Son</span>`}
-        </div>
-      `).join('');
-
-      const breakdownList = document.getElementById('topic-breakdown-list');
-      breakdownList.innerHTML = Object.entries(topicStats).map(([topic, stat]) => {
-        const pct = stat.attempted > 0 ? Math.round((stat.passed / stat.attempted) * 100) : 0;
-        return `
-          <div>
-            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
-              <span>${topic}</span>
-              <span>${pct}% Pass Rate (${stat.passed}/${stat.attempted})</span>
-            </div>
-            <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
-              <div class="h-full bg-indigo-500 rounded-full" style="width: ${pct}%"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderStudentDashboard() {
-      const taskList = document.getElementById('student-task-list');
-      taskList.innerHTML = assignedTests.filter(t => t.status === 'Pending').map(t => `
-        <div class="bg-slate-900 border border-slate-700/80 p-5 rounded-xl space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md">Assigned Homework</span>
-          <h4 class="text-lg font-bold text-white">${t.topic}</h4>
-          <p class="text-xs text-slate-400">${t.questionsCount} Dynamic UK GCSE Style Questions • Target: ${t.target}%</p>
-          <button onclick="startTest('${t.id}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition">Start Practice Paper</button>
-        </div>
-      `).join('') || `<p class="text-slate-400 text-sm">No pending tests assigned right now!</p>`;
-    }
-
-    function openAssignModal() { document.getElementById('assign-modal').classList.remove('hidden'); }
-    function closeAssignModal() { document.getElementById('assign-modal').classList.add('hidden'); }
-
-    function openPinModal() {
-      document.getElementById('new-parent-pin').value = parentPin;
-      document.getElementById('new-student-pin').value = studentPin;
-      document.getElementById('pin-modal').classList.remove('hidden');
-    }
-    function closePinModal() { document.getElementById('pin-modal').classList.add('hidden'); }
-
-    function savePins() {
-      parentPin = document.getElementById('new-parent-pin').value.trim() || '9999';
-      studentPin = document.getElementById('new-student-pin').value.trim() || '1234';
-      localStorage.setItem('parentPin', parentPin);
-      localStorage.setItem('studentPin', studentPin);
-      closePinModal();
-      alert('Passcodes updated successfully!');
-    }
-
-    function confirmAssignTest() {
-      const topic = document.getElementById('modal-topic').value;
-      const count = parseInt(document.getElementById('modal-count').value);
-      const target = parseInt(document.getElementById('modal-pass-target').value);
-
-      assignedTests.push({
-        id: 't_' + Date.now(),
-        topic: topic,
-        questionsCount: count,
-        target: target,
-        status: 'Pending',
-        createdAt: 'Just now'
-      });
-
-      saveData();
-      closeAssignModal();
-      renderParentDashboard();
-    }
-
-    function startTest(testId) {
-      const test = assignedTests.find(t => t.id === testId);
-      const generatedQs = [];
-      for (let i = 0; i < test.questionsCount; i++) {
-        generatedQs.push(generateDynamicQuestion(test.topic));
-      }
-
-      activeTest = { ...test, questions: generatedQs };
-      currentQIndex = 0;
-      userAnswers = {};
-
-      document.getElementById('student-view').classList.add('hidden');
       document.getElementById('test-runner-view').classList.remove('hidden');
 
       document.getElementById('runner-topic-tag').innerText = activeTest.topic;
@@ -716,29 +425,13 @@
       });
 
       const scorePct = Math.round((correct / activeTest.questions.length) * 100);
-      activeTest.score = scorePct;
-      activeTest.status = scorePct >= (activeTest.target || 70) ? 'Passed' : 'Needs Practice';
-
-      const found = assignedTests.find(t => t.id === activeTest.id);
-      if (found) {
-        found.score = scorePct;
-        found.status = activeTest.status;
-      }
-
-      if (topicStats[activeTest.topic]) {
-        topicStats[activeTest.topic].attempted += activeTest.questions.length;
-        topicStats[activeTest.topic].passed += correct;
-      }
-
-      saveData();
-
       document.getElementById('test-runner-view').classList.add('hidden');
       document.getElementById('test-summary-view').classList.remove('hidden');
 
       document.getElementById('summary-score-badge').innerText = `${scorePct}%`;
-      document.getElementById('summary-headline').innerText = scorePct >= (activeTest.target || 70) ? '🎉 Pass Target Achieved!' : '📚 Practice Required';
+      document.getElementById('summary-headline').innerText = scorePct >= 70 ? '🎉 Pass Target Achieved!' : '📚 Practice Required';
 
-      if (scorePct >= (activeTest.target || 70) && typeof confetti === 'function') {
+      if (scorePct >= 70 && typeof confetti === 'function') {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       }
     }
