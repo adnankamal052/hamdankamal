@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 9 Maths Practice - UK Key Stage 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    sup { font-size: 0.75em; vertical-align: super; line-height: 0; }
+    sub { font-size: 0.75em; vertical-align: sub; line-height: 0; }
+    .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: 0.9em; padding: 0 4px; }
+    .frac .top { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+    .frac .bottom { padding-top: 1px; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- Top Navigation Bar -->
+  <nav class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight">Year 9 Maths Practice</h1>
+          <p class="text-xs text-indigo-400 font-medium">UK Key Stage 3 • GCSE Target 1–9</p>
+        </div>
+      </div>
+
+      <!-- Account Switcher -->
+      <div class="flex items-center gap-3">
+        <div id="user-pill" class="flex items-center gap-2 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-xs font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="role-display" class="text-slate-300">Active Account: Parent</span>
+        </div>
+        <button onclick="toggleRole()" class="text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-lg transition font-semibold">
+          <i class="fa-solid fa-user-gear mr-1"></i> Switch Account
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+    <!-- PARENT VIEW -->
+    <div id="parent-view" class="space-y-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
+        <div>
+          <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Parent Control Panel</span>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Assign & Track Maths Practice Papers</h2>
+          <p class="text-slate-300 text-sm mt-1">Assign custom topic tests for your son, set pass percentage targets, and track performance.</p>
+        </div>
+        <button onclick="openAssignModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Assign New Test
+        </button>
+      </div>
+
+      <!-- Metrics Summary -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+          <p class="text-xs text-slate-400 font-medium">Total Tests Assigned</p>
+          <p id="stat-total-tests" class="text-2xl font-bold text-white mt-1">2</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+          <p class="text-xs text-slate-400 font-medium">Son's Overall Pass Rate</p>
+          <p id="stat-pass-rate" class="text-2xl font-bold text-emerald-400 mt-1">80%</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+          <p class="text-xs text-slate-400 font-medium">Strongest Topic</p>
+          <p id="stat-top-topic" class="text-2xl font-bold text-indigo-400 mt-1">Indices & Powers</p>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+          <p class="text-xs text-slate-400 font-medium">Current GCSE Working Grade</p>
+          <p id="stat-ks3-grade" class="text-2xl font-bold text-amber-400 mt-1">Grade 6+</p>
+        </div>
+      </div>
+
+      <!-- Assigned Work & Topic Mastery -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-800/50 border border-slate-700 p-5 rounded-2xl">
+          <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-tasks text-indigo-400"></i> Currently Assigned Homework
+          </h3>
+          <div id="assigned-list" class="space-y-3"></div>
+        </div>
+
+        <div class="bg-slate-800/50 border border-slate-700 p-5 rounded-2xl">
+          <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-chart-line text-emerald-400"></i> Topic Pass Rates & Performance
+          </h3>
+          <div id="topic-breakdown-list" class="space-y-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENT / CHILD VIEW -->
+    <div id="student-view" class="space-y-6 hidden">
+      <div class="bg-gradient-to-r from-emerald-900/60 via-teal-900/40 to-slate-900 border border-emerald-500/30 p-6 rounded-2xl flex justify-between items-center">
+        <div>
+          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Student Dashboard</span>
+          <h2 class="text-2xl font-extrabold text-white mt-2">Year 9 Practice Papers</h2>
+          <p class="text-slate-300 text-sm mt-1">Complete your parent-assigned practice papers to prepare for assessments.</p>
+        </div>
+        <div class="text-right">
+          <span class="text-2xl font-extrabold text-amber-400">🔥 1 Day Streak</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl">
+        <h3 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-indigo-400"></i> Pending Assignments
+        </h3>
+        <div id="student-task-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE TEST RUNNER -->
+    <div id="test-runner-view" class="hidden max-w-3xl mx-auto space-y-6">
+      <div class="flex items-center justify-between bg-slate-800 border border-slate-700 p-4 rounded-xl">
+        <div>
+          <span id="runner-topic-tag" class="text-xs font-bold uppercase bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md">Topic</span>
+          <h3 id="runner-title" class="text-lg font-bold text-white mt-1">Year 9 Practice Paper</h3>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-slate-400">Question <span id="q-curr" class="text-white font-bold">1</span> of <span id="q-total" class="text-white font-bold">5</span></p>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700 p-6 rounded-2xl space-y-6">
+        <div id="question-box" class="text-xl font-medium text-slate-100 leading-relaxed min-h-[60px]"></div>
+
+        <div id="options-box" class="grid grid-cols-1 gap-3"></div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-slate-700/50">
+          <button onclick="prevQuestion()" id="btn-prev" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-semibold disabled:opacity-40">Previous</button>
+          <button onclick="nextQuestion()" id="btn-next" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-bold shadow-lg shadow-indigo-600/30">Next Question</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY VIEW -->
+    <div id="test-summary-view" class="hidden max-w-3xl mx-auto space-y-6">
+      <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl text-center space-y-4">
+        <div class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 rounded-full flex items-center justify-center text-3xl font-black mx-auto" id="summary-score-badge">
+          80%
+        </div>
+        <h2 class="text-2xl font-extrabold text-white" id="summary-headline">Pass Target Achieved!</h2>
+        <p class="text-slate-300 text-sm" id="summary-subtext">Well done! You passed this practice paper.</p>
+        
+        <button onclick="switchView('dashboard')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl transition">Return to Dashboard</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ASSIGN TEST MODAL -->
+  <div id="assign-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 space-y-5 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-file-circle-plus text-indigo-400 mr-2"></i> Assign UK Key Stage 3 Practice Paper</h3>
+        <button onclick="closeAssignModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Select Year 9 Topic</label>
+          <select id="modal-topic" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
+            <option value="Indices & Laws of Indices">Indices & Laws of Indices</option>
+            <option value="Simultaneous Equations">Simultaneous Equations</option>
+            <option value="Trigonometry & Pythagoras">Trigonometry & Pythagoras</option>
+            <option value="Fractions & Decimals">Fractions & Recurring Decimals</option>
+            <option value="Ratio & Direct Proportion">Ratio & Direct Proportion</option>
+            <option value="Algebra & Quadratics">Algebra & Quadratic Expansion</option>
+            <option value="Standard Form">Standard Form & Estimation</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Number of Questions</label>
+          <select id="modal-count" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
+            <option value="5" selected>5 Questions (Quick Check)</option>
+            <option value="10">10 Questions (Full Test)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Passing Target (%)</label>
+          <input type="number" id="modal-pass-target" value="70" min="50" max="100" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-white font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-3">
+        <button onclick="closeAssignModal()" class="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold">Cancel</button>
+        <button onclick="confirmAssignTest()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30">Assign to Son</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRole = 'parent';
+    let assignedTests = [
+      { id: 't1', topic: 'Indices & Laws of Indices', questionsCount: 5, target: 70, status: 'Pending', createdAt: 'Today' },
+      { id: 't2', topic: 'Simultaneous Equations', questionsCount: 5, target: 80, status: 'Passed', score: 80, createdAt: 'Yesterday' }
+    ];
+
+    let topicStats = {
+      'Indices & Laws of Indices': { attempted: 5, passed: 4 },
+      'Simultaneous Equations': { attempted: 5, passed: 4 },
+      'Trigonometry & Pythagoras': { attempted: 0, passed: 0 },
+      'Fractions & Decimals': { attempted: 0, passed: 0 },
+      'Ratio & Direct Proportion': { attempted: 0, passed: 0 }
+    };
+
+    let activeTest = null;
+    let currentQIndex = 0;
+    let userAnswers = {};
+
+    // UK Year 9 Exam Bank with Native HTML Math Formatting
+    const UK_QUESTION_BANK = {
+      'Indices & Laws of Indices': [
+        { q: "Simplify 2<sup>3</sup> × 2<sup>4</sup>", opts: ["2<sup>7</sup>", "2<sup>12</sup>", "4<sup>7</sup>", "2<sup>1</sup>"], ans: 0 },
+        { q: "Work out the value of 5<sup>-2</sup>", opts: ["-10", "<span class='frac'><span class='top'>1</span><span class='bottom'>25</span></span>", "25", "-25"], ans: 1 },
+        { q: "Simplify (<i>x</i><sup>4</sup>)<sup>3</sup>", opts: ["<i>x</i><sup>7</sup>", "<i>x</i><sup>12</sup>", "<i>x</i><sup>1</sup>", "3<i>x</i><sup>4</sup>"], ans: 1 },
+        { q: "Work out the value of 81<sup><span class='frac'><span class='top'>1</span><span class='bottom'>2</span></span></sup>", opts: ["9", "40.5", "3", "18"], ans: 0 },
+        { q: "Simplify <span class='frac'><span class='top'><i>y</i><sup>9</sup></span><span class='bottom'><i>y</i><sup>3</sup></span></span>", opts: ["<i>y</i><sup>3</sup>", "<i>y</i><sup>6</sup>", "<i>y</i><sup>27</sup>", "<i>y</i><sup>12</sup>"], ans: 1 }
+      ],
+      'Simultaneous Equations': [
+        { q: "Solve the simultaneous equations:<br><b><i>x</i> + <i>y</i> = 10</b><br><b><i>x</i> - <i>y</i> = 4</b>", opts: ["<i>x</i> = 7, <i>y</i> = 3", "<i>x</i> = 6, <i>y</i> = 4", "<i>x</i> = 8, <i>y</i> = 2", "<i>x</i> = 5, <i>y</i> = 5"], ans: 0 },
+        { q: "Solve the simultaneous equations:<br><b>2<i>x</i> + <i>y</i> = 11</b><br><b><i>x</i> + <i>y</i> = 7</b>", opts: ["<i>x</i> = 4, <i>y</i> = 3", "<i>x</i> = 3, <i>y</i> = 4", "<i>x</i> = 5, <i>y</i> = 1", "<i>x</i> = 2, <i>y</i> = 7"], ans: 0 }
+      ]
+    };
+
+    function init() {
+      renderParentDashboard();
+    }
+
+    function toggleRole() {
+      currentRole = currentRole === 'parent' ? 'student' : 'parent';
+      document.getElementById('role-display').innerText = `Active Account: ${currentRole === 'parent' ? 'Parent' : 'Student (Son)'}`;
+      switchView('dashboard');
+    }
+
+    function switchView(viewName) {
+      document.getElementById('parent-view').classList.add('hidden');
+      document.getElementById('student-view').classList.add('hidden');
+      document.getElementById('test-runner-view').classList.add('hidden');
+      document.getElementById('test-summary-view').classList.add('hidden');
+
+      if (viewName === 'dashboard') {
+        if (currentRole === 'parent') {
+          document.getElementById('parent-view').classList.remove('hidden');
+          renderParentDashboard();
+        } else {
+          document.getElementById('student-view').classList.remove('hidden');
+          renderStudentDashboard();
+        }
+      }
+    }
+
+    function renderParentDashboard() {
+      const assignedList = document.getElementById('assigned-list');
+      assignedList.innerHTML = assignedTests.map(t => `
+        <div class="flex items-center justify-between p-3.5 bg-slate-900/60 rounded-xl border border-slate-700/60">
+          <div>
+            <span class="text-xs font-bold px-2 py-0.5 rounded ${t.status === 'Passed' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${t.status}</span>
+            <h4 class="font-bold text-slate-100 text-sm mt-1">${t.topic}</h4>
+            <p class="text-xs text-slate-400">${t.questionsCount} Questions • Pass Target: ${t.target}%</p>
+          </div>
+          ${t.score !== undefined ? `<span class="text-lg font-bold text-emerald-400">${t.score}%</span>` : `<span class="text-xs text-slate-500">Pending Son</span>`}
+        </div>
+      `).join('');
+
+      const breakdownList = document.getElementById('topic-breakdown-list');
+      breakdownList.innerHTML = Object.entries(topicStats).map(([topic, stat]) => {
+        const pct = stat.attempted > 0 ? Math.round((stat.passed / stat.attempted) * 100) : 0;
+        return `
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+              <span>${topic}</span>
+              <span>${pct}% Pass Rate (${stat.passed}/${stat.attempted})</span>
+            </div>
+            <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div class="h-full bg-indigo-500 rounded-full" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderStudentDashboard() {
+      const taskList = document.getElementById('student-task-list');
+      taskList.innerHTML = assignedTests.filter(t => t.status === 'Pending').map(t => `
+        <div class="bg-slate-900 border border-slate-700/80 p-5 rounded-xl space-y-3">
+          <span class="text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md">Assigned Homework</span>
+          <h4 class="text-lg font-bold text-white">${t.topic}</h4>
+          <p class="text-xs text-slate-400">${t.questionsCount} UK GCSE Style Questions • Target: ${t.target}%</p>
+          <button onclick="startTest('${t.id}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition">Start Practice Paper</button>
+        </div>
+      `).join('') || `<p class="text-slate-400 text-sm">No pending tests assigned right now!</p>`;
+    }
+
+    function openAssignModal() { document.getElementById('assign-modal').classList.remove('hidden'); }
+    function closeAssignModal() { document.getElementById('assign-modal').classList.add('hidden'); }
+
+    function confirmAssignTest() {
+      const topic = document.getElementById('modal-topic').value;
+      const count = parseInt(document.getElementById('modal-count').value);
+      const target = parseInt(document.getElementById('modal-pass-target').value);
+
+      assignedTests.push({
+        id: 't_' + Date.now(),
+        topic: topic,
+        questionsCount: count,
+        target: target,
+        status: 'Pending',
+        createdAt: 'Just now'
+      });
+
+      closeAssignModal();
+      renderParentDashboard();
+    }
+
+    function startTest(testId) {
+      const test = assignedTests.find(t => t.id === testId);
+      activeTest = {
+        ...test,
+        questions: UK_QUESTION_BANK[test.topic] || UK_QUESTION_BANK['Indices & Laws of Indices']
+      };
+      currentQIndex = 0;
+      userAnswers = {};
+
+      document.getElementById('student-view').classList.add('hidden');
+      document.getElementById('test-runner-view').classList.remove('hidden');
+
+      document.getElementById('runner-topic-tag').innerText = activeTest.topic;
+      document.getElementById('q-total').innerText = activeTest.questions.length;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeTest.questions[currentQIndex];
+      document.getElementById('q-curr').innerText = currentQIndex + 1;
+      
+      document.getElementById('question-box').innerHTML = q.q;
+
+      const optsBox = document.getElementById('options-box');
+      optsBox.innerHTML = q.opts.map((opt, idx) => `
+        <button onclick="selectOption(${idx})" class="w-full text-left p-4 rounded-xl border ${userAnswers[currentQIndex] === idx ? 'bg-indigo-600/30 border-indigo-500 text-white font-bold' : 'bg-slate-900/60 border-slate-700 text-slate-200 hover:bg-slate-800'} transition flex items-center justify-between">
+          <span>${opt}</span>
+          ${userAnswers[currentQIndex] === idx ? '<i class="fa-solid fa-circle-check text-indigo-400"></i>' : ''}
+        </button>
+      `).join('');
+
+      document.getElementById('btn-prev').disabled = currentQIndex === 0;
+      document.getElementById('btn-next').innerText = currentQIndex === activeTest.questions.length - 1 ? 'Submit Test Paper' : 'Next Question';
+    }
+
+    function selectOption(optIndex) {
+      userAnswers[currentQIndex] = optIndex;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentQIndex > 0) { currentQIndex--; renderQuestion(); }
+    }
+
+    function nextQuestion() {
+      if (currentQIndex < activeTest.questions.length - 1) {
+        currentQIndex++;
+        renderQuestion();
+      } else {
+        finishTest();
+      }
+    }
+
+    function finishTest() {
+      let correct = 0;
+      activeTest.questions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.ans) correct++;
+      });
+
+      const scorePct = Math.round((correct / activeTest.questions.length) * 100);
+      activeTest.score = scorePct;
+      activeTest.status = scorePct >= activeTest.target ? 'Passed' : 'Needs Practice';
+
+      const found = assignedTests.find(t => t.id === activeTest.id);
+      if (found) {
+        found.score = scorePct;
+        found.status = activeTest.status;
+      }
+
+      if (!topicStats[activeTest.topic]) topicStats[activeTest.topic] = { attempted: 0, passed: 0 };
+      topicStats[activeTest.topic].attempted += activeTest.questions.length;
+      topicStats[activeTest.topic].passed += correct;
+
+      document.getElementById('test-runner-view').classList.add('hidden');
+      document.getElementById('test-summary-view').classList.remove('hidden');
+
+      document.getElementById('summary-score-badge').innerText = `${scorePct}%`;
+      document.getElementById('summary-headline').innerText = scorePct >= activeTest.target ? '🎉 Pass Target Achieved!' : '📚 Practice Required';
+
+      if (scorePct >= activeTest.target && typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
